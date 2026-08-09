@@ -1,7 +1,7 @@
 # anvil
 
 <p align="center">
-  <img src="images/logo.png" alt="anvil logo — geometric blacksmith anvil with an ember spark on the horn" width="160" />
+  <img src="images/logo.png" alt="anvil logo — geometric blacksmith anvil with an ember spark on the horn" height="400" />
 </p>
 
 <p align="center">

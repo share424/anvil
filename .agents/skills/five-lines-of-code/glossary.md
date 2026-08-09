@@ -1,0 +1,75 @@
+# Glossary — Five Lines of Code
+
+- **Accidental complexity** — complexity not demanded by the domain; added by us and removable (Ch 10, 11, 12).
+- **Anti-refactoring** — deliberately making bad code *visibly* bad to signal issues and seed future refactoring (Ch 13).
+- **Basis** — the set of constant methods that distinguish classes being unified; unifying N classes needs ≤ N−1 basis methods (Ch 5).
+- **Benchmark test** — "method must finish in X ms"; environment-coupled, run only in production-like (Ch 12).
+- **Branch by abstraction** — REPLACE TYPE CODE WITH CLASSES on a feature flag's Boolean → Version1/Version2 classes; localizes a multi-site feature's invariants (Ch 10).
+- **Broken window theory** — one visible flaw invites more; pristine files stay pristine longer (Ch 7, 13).
+- **Caching tiers** — idempotent (external, safe), temporarily idempotent (expiry, fragile), non-idempotent (internal field, dangerous) (Ch 12).
+- **Circus/bus/lottery factor** — how many people leaving halts development; keep it high (Ch 9).
+- **Cognitive complexity** — nesting-punished, subjective code-quality metric; reduces to indentation at a glance (Ch 13).
+- **COMBINE IFS (P5.2.1)** — join adjacent `if`s with identical bodies via `||` (Ch 5).
+- **Common affixes** — shared prefix/suffix signaling a hidden class (Ch 6, 11).
+- **Composition over inheritance** — favor composing objects over class inheritance (Ch 2, 7).
+- **Conditional arithmetic** — `||`=+, `&&`=×; transform a condition to math, simplify, transform back (Ch 5).
+- **Conservative analysis** — compiler disallows a program it can't prove safe; the only kind we can rely on (Ch 7).
+- **Constant method** — a method returning a constant; the differing axis UNIFY SIMILAR CLASSES exploits (Ch 5).
+- **Cyclomatic complexity** — objective path count (if/for/while/||/&& each +1); also a lower bound on tests (Ch 13).
+- **Definite assignment** — compiler proves a variable/readonly field is assigned before use (Ch 7).
+- **DO NOT USE GETTERS OR SETTERS (R6.1.1)** — no getters/setters for non-Boolean fields; getters break encapsulation (Ch 6).
+- **Dynamic dispatch** — interface method call selects the implementing class at runtime; replaces runtime-type inspection (Ch 11).
+- **EITHER CALL OR PASS (R3.1.1)** — a function should call methods on an object *or* pass it as an arg, not both (Ch 3).
+- **ELIMINATE GETTER OR SETTER (P6.1.3)** — make it private, PUSH CODE INTO CLASSES the call sites, delete the accessor (Ch 6).
+- **ENCAPSULATE DATA (P6.2.3)** — move variables + affix-sharing methods into a new class; thread an instance param; instantiate at the decl site (Ch 6).
+- **ENFORCE SEQUENCE (P6.4.1)** — constructor runs the precondition; the instance is proof it ran (Ch 6).
+- **Enter the danger** — confront the most uncertain area first (Ch 10).
+- **Essential complexity** — complexity inherent to the domain (Ch 10, 11, 12).
+- **EXTRACT INTERFACE FROM IMPLEMENTATION (P5.4.4)** — extract the interface only when variance is needed (Ch 5).
+- **EXTRACT METHOD (P3.2.1)** — take part of a method into its own named method (Ch 3).
+- **Feature toggles** — `FeatureToggle` class + env-var flag; separates deploy from release; remove ≤6 weeks (Ch 9, 10).
+- **FIVE LINES (R3.1.1)** — a method ≤ 5 statements, excluding braces (Ch 3).
+- **Frozen project** — finished feature blocked by an external barrier; auto-expire it (Ch 9).
+- **Green to green** — refactor in small steps that each leave the code working (Ch 14).
+- **Halting problem** — can't know runtime behavior without running; defines what a programming language is (Ch 7).
+- **Hot spot** — slow method inside a loop; the only place optimization pays (Ch 12).
+- **IF ONLY AT THE START (R3.5.1)** — an `if` should be the first thing in the function (Ch 3).
+- **INCIDENTAL complexity (4 kinds)** — technical ignorance, waste, debt, drag (Ch 9).
+- **INLINE METHOD (P4.1.7)** — remove a method that no longer aids readability by inlining it (Ch 4).
+- **INTRODUCE STRATEGY PATTERN (P5.4.2)** — move varying code into its own class; variance by instantiation; the book's most powerful pattern (Ch 5).
+- **Invariant ladder** — eliminate → teach compiler → automated test → document → manual test → pray (Ch 7).
+- **Law of Demeter** — "don't talk to strangers"; smell behind DO NOT USE GETTERS OR SETTERS (Ch 6).
+- **Less is better** — code is a liability; adding can decrease value (Ch 9).
+- **Lines → methods → classes → namespaces** — the inside-out cascade for finding structure (Ch 14).
+- **Load test** — "X req/s" throughput; resilient but needs prod-like hardware (Ch 12).
+- **Macro- vs micro-architecture** — inter-team (API/platforms) vs intra-team (this book's patterns) (Ch 11).
+- **Magic bit pattern** — hex constant exploiting a runtime nuance; maximally locked code (Ch 12).
+- **NEVER HAVE COMMON AFFIXES (R6.2.1)** — common affix = a hidden class (Ch 6).
+- **NEVER USE IF WITH ELSE (R4.1.1)** — `if`-`else` is a decision; use classes (Ch 4).
+- **NEVER USE SWITCH (R4.3.1)** — the only allowed switch is on an enum to be eliminated (Ch 4).
+- **NO INTERFACE WITH ONLY ONE IMPLEMENTATION (R5.4.3)** — a lone interface signals false variance (Ch 5).
+- **Nonlocal invariant** — an assumption holding across code; the root of most bugs (Ch 2).
+- **ONLY INHERIT FROM INTERFACES (R4.3.2)** — never inherit from classes (Ch 4).
+- **Performance approval test** — "not >X% slower than last run"; decoupled from external factors (Ch 12).
+- **Private-constructor enumeration** — `static readonly` instances + `private constructor` when enums can't have methods (Ch 6).
+- **Profiling** — measuring accumulated time per method to find hot spots (Ch 12).
+- **Pull-based vs push-based architecture** — fetch+compute-centrally vs pass data+compute-at-the-data (Ch 6).
+- **PUSH CODE INTO CLASSES (P4.1.5)** — move a method into the class whose data it uses (Ch 4).
+- **Reachability** — compiler proves a method returns on every path; `assertExhausted(x: never)` forces exhaustiveness (Ch 7).
+- **REPLACE TYPE CODE WITH CLASSES (P4.1.3)** — turn an enum/Boolean into an interface + per-value classes (Ch 4).
+- **Resource pooling** — shared pool of workers (load balancer / thread pool) auto-feeds the bottleneck (Ch 12).
+- **Sequence invariant** — "A must be called before B"; ENFORCE SEQUENCE eliminates it (Ch 6).
+- **Spike** — throwaway exploration; product is knowledge, not code (Ch 9, 10).
+- **Spike and stabilize** — spike with monitoring, decide in 6 weeks: reimplement if used, delete if not (Ch 9).
+- **Strangler fig pattern** — gate legacy, monitor, migrate the most-called, delete the least-called (Ch 9).
+- **Strategy pattern** — enable change by adding classes; ultimate late binding (Ch 5).
+- **Sunk-cost fallacy** — value comes from outcome, not effort spent (Ch 9).
+- **System 1 vs System 2** — fast/cheap/imprecise vs slow/expensive/accurate; rules must run on System 1 (Ch 14).
+- **Technical debt** — deliberately suboptimal *temporary* solution; fine iff it has an expiry date (Ch 9).
+- **Technical drag** — slowdown from the codebase existing; remove the unused parts (Ch 9).
+- **Theory of constraints** — exactly one bottleneck; only bottleneck optimization affects throughput (Ch 12).
+- **TRY DELETE THEN COMPILE (P4.5.1)** — delete methods to let the compiler find the unused (Ch 4).
+- **UNIFY SIMILAR CLASSES (P5.1.1)** — merge classes differing only in constant methods (Ch 5).
+- **USE PURE CONDITIONS (R5.3.2)** — conditions have no side effects; prerequisite for conditional arithmetic (Ch 5).
+- **UML class diagram** — boxes for classes/interfaces; relations: uses/is-a/has-a (Ch 5).
+- **Zero warnings policy** — the only healthy warning count is zero (Ch 7).

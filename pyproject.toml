@@ -1,0 +1,99 @@
+[project]
+name = "anvil"
+version = "0.1.0"
+description = "Config-driven deep learning experiment framework built on PyTorch and PyTorch Lightning."
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "torch",
+    "torchvision",
+    "lightning",
+    "omegaconf",
+    "torchmetrics",
+    "pydantic>=2.13.4",
+    "jaxtyping>=0.3.0",
+]
+
+[project.optional-dependencies]
+# Install markers for the stock / blueprints layers (same package tree today;
+# soft-import guards tell users which extra they should have installed).
+stock = []
+blueprints = []
+all = [
+    "beartype>=0.19",
+    "onnx>=1.16",
+    "onnxscript>=0.7.1",
+]
+export = [
+    "onnx>=1.16",
+    "onnxscript>=0.7.1",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8",
+    "ruff>=0.6",
+    "ty>=0.0.66",
+    "beartype>=0.19",
+    "onnx>=1.16",
+    "onnxscript>=0.7.1",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+extend-exclude = ["anvil/stock/**/*_impl.py"]
+
+[tool.ruff.lint]
+select = [
+    "F",
+    "E",
+    "W",
+    "I",
+    "UP",
+    "B",
+    "D",  # pydocstyle — Google convention (see below)
+]
+ignore = [
+    "E501",
+    "B008",
+    "F722",  # jaxtyping shape strings are not valid Python expressions
+]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.per-file-ignores]
+# Tests use Condition/Expected docstrings (pytest convention), not Google Args/Returns.
+"tests/**" = ["E402", "D"]
+# Package markers / empty stock scaffolds — fill docs as modules gain API.
+"anvil/stock/**/__init__.py" = ["D104"]
+"anvil/blueprints/__init__.py" = ["D104", "E402"]
+"anvil/core/config/__init__.py" = ["D104"]
+"anvil/core/runtime/__init__.py" = ["D104"]
+# jaxtyping shape strings (e.g. Int[Tensor, "batch"]) trip UP037/F821.
+"anvil/stock/data/**/*.py" = ["UP037", "F821"]
+
+[project.scripts]
+anvil = "anvil.core.cli:main"
+
+[tool.uv]
+[[tool.uv.index]]
+name = "pytorch-cu126"
+url = "https://download.pytorch.org/whl/cu126"
+explicit = true
+
+[tool.uv.sources]
+torch = { index = "pytorch-cu126" }
+torchvision = { index = "pytorch-cu126" }
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["anvil"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra -q"

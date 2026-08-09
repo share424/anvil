@@ -1,0 +1,32 @@
+extends:
+  - _base_/trainer/default.yaml
+
+global:
+  project: cifar
+  name: resnet18_baseline
+  seed: 42
+
+task:
+  _target_: anvil.stock.tasks.classification.SimpleClassificationTask
+  backbone:
+    _target_: anvil.stock.components.backbones.resnet.ResNet18
+  head:
+    _target_: anvil.stock.components.heads.linear.LinearHead
+    in_channels: 512
+    num_classes: 10
+  data:
+    _target_: anvil.stock.data.classification.cifar.Cifar10
+    root: /tmp/anvil-cifar10
+    batch_size: 128
+    num_workers: 2
+  optimizer:
+    _target_: anvil.stock.components.optim.sgd.SGD
+    lr: 0.1
+    momentum: 0.9
+    weight_decay: 5.0e-4
+  scheduler:
+    _target_: anvil.stock.components.optim.sgd.CosineAnnealing
+    t_max: ${trainer.max_epochs}
+
+trainer:
+  max_epochs: 100

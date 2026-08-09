@@ -1,0 +1,32 @@
+name: ci
+
+on:
+  push:
+    branches: [master, main]
+  pull_request:
+    branches: [master, main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Sync
+        run: uv sync --extra all --group dev
+
+      - name: Ruff
+        run: uv run ruff check anvil tests
+
+      - name: Ty
+        run: uv run ty check anvil
+
+      - name: Pytest
+        run: uv run pytest
+        env:
+          ANVIL_STRICT_SHAPES: "1"

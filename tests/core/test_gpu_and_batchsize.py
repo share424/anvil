@@ -5,6 +5,7 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any, cast
 
+import pytest
 from lightning.pytorch.callbacks import DeviceStatsMonitor
 from lightning.pytorch.core.datamodule import LightningDataModule
 
@@ -29,21 +30,25 @@ def test_device_stats_enabled_respects_cpu_and_flag() -> None:
     assert device_stats_enabled("auto", flag=True) is True
 
 
-def test_build_trainer_attaches_gpu_callbacks(tmp_path: Path) -> None:
+def test_build_trainer_attaches_gpu_callbacks(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
     """
     Condition:
-    Trainer has log_device_stats=True and accelerator=gpu.
+    device_stats_enabled reports True while building a CPU trainer (CI-safe).
 
     Expected:
     DeviceStatsMonitor and GpuUsageLogger are present; gpu.txt path is set.
     """
+    monkeypatch.setattr("anvil.core.api.device_stats_enabled", lambda *args, **kwargs: True)
     run = RunDirectory(tmp_path / "run")
     (tmp_path / "run").mkdir()
     (tmp_path / "run" / "checkpoints").mkdir()
     trainer = cast(
         Any,
         _build_trainer(
-            Trainer(max_epochs=1, accelerator="gpu", devices=1, log_device_stats=True),
+            Trainer(max_epochs=1, accelerator="cpu", devices=1, log_device_stats=True),
             run,
         ),
     )
